@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌿 會考生物突破：植物的運輸與構造大解密</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans TC', sans-serif; }
+    /* 流動點線動畫，凸顯物質方向 */
+    @keyframes flowUp {
+      from { stroke-dashoffset: 40; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes flowDown {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: 40; }
+    }
+    .flow-up {
+      stroke-dasharray: 6, 6;
+      animation: flowUp 1.2s linear infinite;
+    }
+    .flow-down {
+      stroke-dasharray: 6, 6;
+      animation: flowDown 1.2s linear infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- 頂部 Header -->
+  <header class="bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-900 text-white py-6 px-4 shadow-md">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div>
+        <span class="inline-block bg-emerald-500/30 text-emerald-200 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider mb-1 border border-emerald-400/30">會考高分專用 複習教材</span>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2">
+          <span>🌿 植物體內的物質運輸與構造</span>
+        </h1>
+      </div>
+      <p class="text-emerald-100 text-sm max-w-xs text-center sm:text-right">
+        木質部 vs 韌皮部・單向雙向流動・環狀剝皮・年輪與氣孔開閉
+      </p>
+    </div>
+  </header>
+
+  <!-- 導覽分頁標籤 (Tabs) -->
+  <div class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-5xl mx-auto flex justify-center sm:justify-start px-4">
+      <button onclick="switchTab('tab-lab')" id="btn-tab-lab" class="tab-btn px-6 py-4 font-bold text-sm sm:text-base border-b-2 border-emerald-600 text-emerald-700 flex items-center gap-2 transition-all">
+        🧪 互動學習實驗室
+      </button>
+      <button onclick="switchTab('tab-quiz')" id="btn-tab-quiz" class="tab-btn px-6 py-4 font-bold text-sm sm:text-base border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center gap-2 transition-all">
+        ✏️ 迷思觀念大挑戰
+      </button>
+      <button onclick="switchTab('tab-notes')" id="btn-tab-notes" class="tab-btn px-6 py-4 font-bold text-sm sm:text-base border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center gap-2 transition-all">
+        📚 重點筆記對照表
+      </button>
+    </div>
+  </div>
+
+  <!-- 主要內容區 -->
+  <main class="max-w-5xl mx-auto w-full px-4 py-8 flex-grow">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: 互動學習實驗室 -->
+    <!-- ========================================== -->
+    <section id="tab-lab" class="space-y-10">
+
+      <!-- 實驗 1: 水分與養分運輸路徑與方向 -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-6 border-b pb-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-900 flex items-center gap-2">
+              <span>🔬 實驗一：木質部 vs. 韌皮部物質流向模擬</span>
+            </h2>
+            <p class="text-slate-500 text-sm mt-1">調整運作模式，觀察通道內物質的流動方向與管壁結構特徵</p>
+          </div>
+          <!-- 切換模式開關 -->
+          <div class="flex bg-slate-100 p-1 rounded-xl">
+            <button id="mode-spring" onclick="setPlantMode('spring')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-sm transition">🌱 春季萌芽（根部養分上運）</button>
+            <button id="mode-summer" onclick="setPlantMode('summer')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition">☀️ 盛夏光合（葉製造養分下儲）</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <!-- 原生 SVG 管束管道視覺化 -->
+          <div class="md:col-span-7 flex justify-center bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100">
+            <svg viewBox="0 0 420 340" class="w-full max-w-[420px] h-auto drop-shadow-sm select-none">
+              <!-- 葉片示意 -->
+              <path d="M 120 40 Q 210 10 300 40 Q 340 70 210 80 Q 80 70 120 40" fill="#86efac" stroke="#16a34a" stroke-width="2"/>
+              <text x="210" y="55" font-size="12" font-weight="bold" fill="#14532d" text-anchor="middle">🍃 葉片（光合作用場所 / 蒸散出口）</text>
+
+              <!-- 植物莖部外框輪廓 -->
+              <rect x="70" y="80" width="280" height="190" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+
+              <!-- 木質部 (內側通道) -->
+              <g id="xylem-group">
+                <rect x="100" y="80" width="85" height="190" fill="#e0f2fe" stroke="#0284c7" stroke-width="3" stroke-dasharray="none"/>
+                <text x="142" y="105" font-size="13" font-weight="bold" fill="#0369a1" text-anchor="middle">木質部 (內側)</text>
+                <text x="142" y="122" font-size="10" fill="#0284c7" text-anchor="middle">厚壁・死細胞</text>
+                
+                <!-- 單向上升動態箭頭與流動線 -->
+                <line x1="142" y1="260" x2="142" y2="135" stroke="#0284c7" stroke-width="4" class="flow-up"/>
+                <polygon points="142,130 134,145 150,145" fill="#0284c7"/>
+                
+                <text x="142" y="195" font-size="12" font-weight="900" fill="#0284c7" text-anchor="middle">💧 水分＋無機鹽</text>
+                <text x="142" y="215" font-size="11" font-weight="bold" fill="#0369a1" text-anchor="middle">【永遠單向向上】</text>
+              </g>
+
+              <!-- 形成層 (雙子葉分界線) -->
+              <rect x="195" y="80" width="10" height="190" fill="#fef08a" stroke="#ca8a04" stroke-width="1.5"/>
+              <text x="200" y="180" font-size="9" font-weight="bold" fill="#854d0e" text-anchor="middle" transform="rotate(-90 200 180)">形成層（細胞分裂）</text>
+
+              <!-- 韌皮部 (外側通道) -->
+              <g id="phloem-group">
+                <rect x="215" y="80" width="105" height="190" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+                <text x="267" y="105" font-size="13" font-weight="bold" fill="#9d174d" text-anchor="middle">韌皮部 (外側)</text>
+                <text x="267" y="122" font-size="10" fill="#be185d" text-anchor="middle">薄壁・活細胞</text>
+
+                <!-- 動態雙向箭頭/指示線 (透過JS切換類別與箭頭方向) -->
+                <line id="phloem-flow-line" x1="267" y1="260" x2="267" y2="135" stroke="#db2777" stroke-width="4" class="flow-up"/>
+                <polygon id="phloem-arrow-up" points="267,130 259,145 275,145" fill="#db2777"/>
+                <polygon id="phloem-arrow-down" points="267,265 259,250 275,250" fill="#db2777" class="hidden"/>
+
+                <text x="267" y="185" font-size="12" font-weight="900" fill="#9d174d" text-anchor="middle">🍞 有機養分 (蔗糖)</text>
+                <text id="phloem-dir-text" x="267" y="215" font-size="11" font-weight="bold" fill="#be185d" text-anchor="middle">【此時方向：由下往上】</text>
+              </g>
+
+              <!-- 根部示意 -->
+              <path d="M 80 270 Q 210 280 340 270 Q 280 320 210 335 Q 140 320 80 270" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+              <text x="210" y="305" font-size="12" font-weight="bold" fill="#9a3412" text-anchor="middle">🥕 根部（吸收水分無機鹽 / 儲存養分）</text>
+            </svg>
+          </div>
+
+          <!-- 控制與說明 -->
+          <div class="md:col-span-5 space-y-4">
+            <div id="status-card" class="p-4 rounded-xl border-l-4 border-teal-500 bg-teal-50 text-slate-800 text-sm">
+              <span class="font-bold text-teal-800 text-base block mb-1">🌱 春季萌芽期狀態：</span>
+              樹木剛發芽尚未長出大量葉片，<strong>儲存於根部的養分</strong>必須透過<strong>韌皮部</strong>往上送給新芽生長！這證明了養分運送是<span class="text-rose-600 font-black">「可向上也可向下（雙向）」</span>的。
+            </div>
+
+            <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+              <h4 class="font-bold text-amber-900 text-sm flex items-center gap-1">
+                <span>💡 重點聚焦：會考秒殺口訣</span>
+              </h4>
+              <ul class="text-xs text-amber-800 mt-2 space-y-1.5 list-disc list-inside">
+                <li><strong>內木外韌</strong>：維管束內側是木質部、外側是韌皮部。</li>
+                <li><strong>水木單向</strong>：木質部運送水分無機鹽，動力靠蒸散，<strong>絕對只能由下往上</strong>！</li>
+                <li><strong>韌養雙向</strong>：韌皮部運送有機養分，<strong>可上可下</strong>，看哪裡缺養分就往哪送！</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 實驗 2: 氣孔開閉與保衛細胞膨脹機制 -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+        <div class="border-b pb-4 mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-emerald-900 flex items-center gap-2">
+            <span>🔬 實驗二：保衛細胞與氣孔開閉微觀模擬</span>
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">拖曳水分充足程度滑桿，觀察保衛細胞如何形變以開閉氣孔</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <!-- 氣孔 SVG 模擬 -->
+          <div class="md:col-span-7 flex flex-col items-center justify-center bg-sky-50/40 p-6 rounded-2xl border border-sky-100">
+            <svg id="stoma-svg" viewBox="0 0 360 240" class="w-full max-w-[340px] h-auto select-none">
+              <!-- 表皮細胞底圖 -->
+              <rect x="10" y="20" width="340" height="200" rx="12" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="2"/>
+              <text x="180" y="40" font-size="11" fill="#047857" font-weight="bold" text-anchor="middle">表皮細胞（無葉綠體、扁平緊密透明）</text>
+
+              <!-- 左保衛細胞 -->
+              <path id="guard-left" d="M 160 60 C 120 75 120 165 160 180 C 150 150 150 90 160 60 Z" fill="#4ade80" stroke="#15803d" stroke-width="2"/>
+              <!-- 左葉綠體示意點 -->
+              <circle cx="140" cy="100" r="4" fill="#166534"/>
+              <circle cx="138" cy="120" r="4" fill="#166534"/>
+              <circle cx="142" cy="140" r="4" fill="#166534"/>
+
+              <!-- 右保衛細胞 -->
+              <path id="guard-right" d="M 200 60 C 240 75 240 165 200 180 C 210 150 210 90 200 60 Z" fill="#4ade80" stroke="#15803d" stroke-width="2"/>
+              <!-- 右葉綠體示意點 -->
+              <circle cx="220" cy="100" r="4" fill="#166534"/>
+              <circle cx="222" cy="120" r="4" fill="#166534"/>
+              <circle cx="218" cy="140" r="4" fill="#166534"/>
+
+              <!-- 氣孔內孔 (黑色縫隙) -->
+              <ellipse id="stoma-hole" cx="180" cy="120" rx="20" ry="45" fill="#0f172a" opacity="0.85"/>
+
+              <!-- 散失的水蒸氣與氣體箭頭 -->
+              <g id="vapor-arrow" class="transition-opacity duration-300">
+                <text x="180" y="125" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">蒸散中 💦</text>
+              </g>
+            </svg>
+
+            <!-- 狀態標籤 -->
+            <div id="stoma-state-badge" class="mt-4 px-4 py-1.5 rounded-full text-xs font-black bg-emerald-600 text-white tracking-wide">
+              狀態：氣孔張開（保衛細胞吸水膨脹彎曲）
+            </div>
+          </div>
+
+          <!-- 控制面板與解析 -->
+          <div class="md:col-span-5 space-y-4">
+            <div>
+              <label class="block text-sm font-bold text-slate-700 mb-2 flex justify-between">
+                <span>保衛細胞吸水量 / 光照強度：</span>
+                <span id="hydration-val" class="text-emerald-600 font-extrabold">100%</span>
+              </label>
+              <input id="stoma-slider" type="range" min="0" max="100" value="100" class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600" oninput="updateStoma(this.value)">
+              <div class="flex justify-between text-xs text-slate-400 mt-1 font-medium">
+                <span>乾旱/黑夜 (0%)</span>
+                <span>充足/白天 (100%)</span>
+              </div>
+            </div>
+
+            <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-xl text-xs sm:text-sm text-slate-700 space-y-2">
+              <div class="font-bold text-sky-900 text-sm">💡 重點聚焦：保衛細胞必考四大觀念</div>
+              <p>1. <strong>有葉綠體</strong>：一般的表皮細胞無葉綠體，但保衛細胞<strong>有葉綠體</strong>，能行光合作用！</p>
+              <p>2. <strong>內厚外薄</strong>：靠氣孔一側的內壁較厚、外壁較薄。吸水時外壁膨脹大，帶動內壁往外拉扯使<strong>氣孔張開</strong>。</p>
+              <p>3. <strong>主要動力</strong>：蒸散作用產生的拉力，是高大樹木水分由下往上升的最主要動力！</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: 迷思觀念大挑戰 -->
+    <!-- ========================================== -->
+    <section id="tab-quiz" class="hidden">
+      <!-- 測驗卡片容器 -->
+      <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-10">
+        
+        <!-- 進度條 -->
+        <div id="quiz-header" class="mb-6">
+          <div class="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-500 mb-2">
+            <span id="question-counter">第 1 題 / 共 10 題</span>
+            <span class="text-emerald-700 font-extrabold" id="current-score-text">已累計得分：0 分</span>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+            <div id="progress-bar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-300" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- 題目與選項區域 -->
+        <div id="quiz-card" class="space-y-6">
+          <h3 id="question-text" class="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
+            題目載入中...
+          </h3>
+
+          <div id="options-container" class="space-y-3">
+            <!-- 由 JS 動態生成選項按鈕 -->
+          </div>
+
+          <!-- 解題觀念大白話 (初始隱藏) -->
+          <div id="explanation-box" class="hidden mt-6 p-5 rounded-xl border text-sm leading-relaxed transition-all duration-300">
+            <h4 id="explanation-title" class="font-bold text-base flex items-center gap-1.5 mb-2"></h4>
+            <p id="explanation-text" class="text-slate-700"></p>
+          </div>
+
+          <!-- 下一題按鈕 -->
+          <div class="flex justify-end pt-2">
+            <button id="btn-next" onclick="nextQuestion()" class="hidden px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-sm transition items-center gap-2">
+              <span>下一題 ➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 結算報告區塊 (初始隱藏) -->
+        <div id="result-card" class="hidden text-center py-6 space-y-6">
+          <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner">
+            🏆
+          </div>
+          <div>
+            <h3 class="text-2xl font-black text-slate-900">觀念診斷結算報告</h3>
+            <p class="text-slate-500 text-sm mt-1">九年級會考・植物運輸觀念總體檢</p>
+          </div>
+
+          <div class="text-6xl font-black text-emerald-600 font-mono tracking-tight" id="final-score">
+            80 <span class="text-2xl font-sans text-slate-500 font-bold">/ 100</span>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-left max-w-lg mx-auto">
+            <h4 class="font-bold text-slate-800 text-base mb-2 flex items-center gap-2">
+              <span>👨‍🏫 老師的白話專屬複習指引：</span>
+            </h4>
+            <p id="feedback-text" class="text-sm text-slate-600 leading-relaxed"></p>
+          </div>
+
+          <button onclick="restartQuiz()" class="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition">
+            🔄 重新挑戰一次
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: 重點筆記對照表 -->
+    <!-- ========================================== -->
+    <section id="tab-notes" class="hidden space-y-8">
+      
+      <!-- 總攬 banner -->
+      <div class="bg-gradient-to-r from-teal-800 to-emerald-900 text-white p-6 rounded-2xl shadow-sm">
+        <h2 class="text-xl sm:text-2xl font-black flex items-center gap-2">
+          <span>📚 會考滿分寶典：常見陷阱 vs. 正確觀念大對照</span>
+        </h2>
+        <p class="text-emerald-100 text-sm mt-2">
+          不要死背！九年級衝刺專用，專抓歷屆會考最愛挖洞的「文字魔鬼細節」。
+        </p>
+      </div>
+
+      <!-- 迷思對照卡片 1 -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 border-l-8 border-l-rose-500 space-y-3">
+        <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md uppercase">迷思破除 1</span>
+        <h3 class="text-lg font-bold text-slate-900">【迷思陷阱】養分永遠都是由上（葉）往下運送？</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="bg-rose-50/50 p-4 rounded-xl border border-rose-100 text-xs sm:text-sm text-rose-950">
+            <span class="font-bold block text-rose-700 mb-1">❌ 學生常見死背誤解：</span>
+            以為葉子在上面行光合作用，所以韌皮部裡的養分絕對只有「從上往下送」給根部儲存。
+          </div>
+          <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 text-xs sm:text-sm text-emerald-950">
+            <span class="font-bold block text-emerald-700 mb-1">✅ 會考標準正確觀念：</span>
+            <strong>韌皮部運送是「雙向」的！</strong>在春天剛發芽或開花時，葉片尚未長齊，必須將根部或莖部儲存的養分<strong>由下往上送</strong>供幼芽發育。
+          </div>
+        </div>
+      </div>
+
+      <!-- 迷思對照卡片 2 -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 border-l-8 border-l-amber-500 space-y-3">
+        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md uppercase">迷思破除 2</span>
+        <h3 class="text-lg font-bold text-slate-900">【迷思陷阱】樹木遭到「環狀剝皮」後，會立刻缺水枯死？</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100 text-xs sm:text-sm text-amber-950">
+            <span class="font-bold block text-amber-700 mb-1">❌ 學生常見死背誤解：</span>
+            以為樹皮被剝掉一圈，植物體立刻失去所有保護，上方葉片立刻乾枯缺水死掉。
+          </div>
+          <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 text-xs sm:text-sm text-emerald-950">
+            <span class="font-bold block text-emerald-700 mb-1">✅ 會考標準正確觀念：</span>
+            <strong>是根部先餓死，然後才缺水死！</strong><br>
+            樹皮包含<strong>韌皮部</strong>。剝皮破壞了韌皮部，葉片養分運不到根部 → <strong>根部細胞缺乏養分先死亡</strong> → 根無法吸水 → 最後整株植物缺水枯死。
+          </div>
+        </div>
+      </div>
+
+      <!-- 迷思對照卡片 3 -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 border-l-8 border-l-blue-500 space-y-3">
+        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md uppercase">迷思破除 3</span>
+        <h3 class="text-lg font-bold text-slate-900">【迷思陷阱】年輪是一圈木質部、一圈韌皮部交替組成的？</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 text-xs sm:text-sm text-blue-950">
+            <span class="font-bold block text-blue-700 mb-1">❌ 學生常見死背誤解：</span>
+            看到年輪一深一淺的環紋，誤以為深色是木質部、淺色是韌皮部，兩者交替排列。
+          </div>
+          <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 text-xs sm:text-sm text-emerald-950">
+            <span class="font-bold block text-emerald-700 mb-1">✅ 會考標準正確觀念：</span>
+            <strong>年輪全部都是「木質部」！</strong><br>
+            春夏溫暖多雨：細胞生長快、管徑大、壁薄 → <strong>淺色環紋（早材）</strong>；秋冬寒冷乾燥：細胞生長慢、管徑小、壁厚 → <strong>深色環紋（晚材）</strong>。
+          </div>
+        </div>
+      </div>
+
+      <!-- 結構極簡表格整理 -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 border-l-8 border-l-emerald-600">
+        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <span>🎯 單子葉 vs. 雙子葉莖部維管束速查表</span>
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 border-b">
+                <th class="p-3 font-bold">比較項目</th>
+                <th class="p-3 font-bold text-emerald-800">單子葉植物 (如：玉米、水稻、竹子)</th>
+                <th class="p-3 font-bold text-teal-800">雙子葉植物 (如：榕樹、向日葵)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-600">
+              <tr>
+                <td class="p-3 font-bold text-slate-800">維管束排列</td>
+                <td class="p-3"><strong>散生</strong>（散亂分布在基本組織中）</td>
+                <td class="p-3"><strong>環狀排列</strong>（圍成一圈）</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-800">有無形成層</td>
+                <td class="p-3 text-rose-600 font-bold">無形成層（無法隨年齡持續加粗）</td>
+                <td class="p-3 text-emerald-700 font-bold">有形成層（向內生木質部、向外生韌皮部）</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-800">能否產生年輪</td>
+                <td class="p-3">不能形成年輪</td>
+                <td class="p-3">木本雙子葉植物可產生明顯年輪</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 底部 Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+    <div class="max-w-5xl mx-auto px-4">
+      <p>💡 九年級會考生物總複習教材 ｜ 專注破除盲點 ｜ 觀念通透，會考必勝！</p>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- Vanilla JavaScript 互動核心邏輯 -->
+  <!-- ========================================== -->
+  <script>
+    // 1. Tab 切換邏輯
+    function switchTab(tabId) {
+      const tabs = ['tab-lab', 'tab-quiz', 'tab-notes'];
+      tabs.forEach(id => {
+        const el = document.getElementById(id);
+        const btn = document.getElementById('btn-' + id);
+        if (id === tabId) {
+          el.classList.remove('hidden');
+          btn.classList.add('border-emerald-600', 'text-emerald-700');
+          btn.classList.remove('border-transparent', 'text-slate-500');
+        } else {
+          el.classList.add('hidden');
+          btn.classList.remove('border-emerald-600', 'text-emerald-700');
+          btn.classList.add('border-transparent', 'text-slate-500');
+        }
+      });
+    }
+
+    // 2. 實驗一：植物季節/流向模式切換
+    function setPlantMode(mode) {
+      const line = document.getElementById('phloem-flow-line');
+      const arrowUp = document.getElementById('phloem-arrow-up');
+      const arrowDown = document.getElementById('phloem-arrow-down');
+      const dirText = document.getElementById('phloem-dir-text');
+      const statusCard = document.getElementById('status-card');
+      const btnSpring = document.getElementById('mode-spring');
+      const btnSummer = document.getElementById('mode-summer');
+
+      if (mode === 'spring') {
+        btnSpring.className = 'px-3.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-sm transition';
+        btnSummer.className = 'px-3.5 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition';
+
+        line.className.baseVal = 'flow-up';
+        arrowUp.classList.remove('hidden');
+        arrowDown.classList.add('hidden');
+        dirText.textContent = '【此時方向：由下往上】';
+
+        statusCard.className = 'p-4 rounded-xl border-l-4 border-teal-500 bg-teal-50 text-slate-800 text-sm';
+        statusCard.innerHTML = `
+          <span class="font-bold text-teal-800 text-base block mb-1">🌱 春季萌芽期狀態：</span>
+          樹木剛發芽尚未長出大量葉片，<strong>儲存於根部的養分</strong>必須透過<strong>韌皮部</strong>往上送給新芽生長！這證明了養分運送是<span class="text-rose-600 font-black">「可向上也可向下（雙向）」</span>的。
+        `;
+      } else {
+        btnSummer.className = 'px-3.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-sm transition';
+        btnSpring.className = 'px-3.5 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition';
+
+        line.className.baseVal = 'flow-down';
+        arrowUp.classList.add('hidden');
+        arrowDown.classList.remove('hidden');
+        dirText.textContent = '【此時方向：由上往下】';
+
+        statusCard.className = 'p-4 rounded-xl border-l-4 border-amber-500 bg-amber-50 text-slate-800 text-sm';
+        statusCard.innerHTML = `
+          <span class="font-bold text-amber-800 text-base block mb-1">☀️ 盛夏旺盛期狀態：</span>
+          成熟葉片進行旺盛的光合作用製造大量葡萄糖（轉為蔗糖運送），透過<strong>韌皮部向下運送</strong>到根部或果實儲存。
+        `;
+      }
+    }
+
+    // 3. 實驗二：氣孔與保衛細胞動態連動
+    function updateStoma(val) {
+      document.getElementById('hydration-val').textContent = val + '%';
+      const stomaHole = document.getElementById('stoma-hole');
+      const guardLeft = document.getElementById('guard-left');
+      const guardRight = document.getElementById('guard-right');
+      const vaporText = document.getElementById('vapor-arrow');
+      const badge = document.getElementById('stoma-state-badge');
+
+      const ratio = val / 100;
+      // 依比率計算孔隙寬度 (0 ~ 22)
+      const rx = 22 * ratio;
+      stomaHole.setAttribute('rx', rx);
+
+      if (val < 25) {
+        // 幾近關閉
+        guardLeft.setAttribute('d', 'M 175 60 C 150 75 150 165 175 180 C 170 150 170 90 175 60 Z');
+        guardRight.setAttribute('d', 'M 185 60 C 210 75 210 165 185 180 C 190 150 190 90 185 60 Z');
+        vaporText.style.opacity = '0';
+        badge.className = 'mt-4 px-4 py-1.5 rounded-full text-xs font-black bg-slate-600 text-white tracking-wide';
+        badge.textContent = '狀態：氣孔關閉（缺水萎縮或夜晚，減少水分蒸散）';
+      } else {
+        // 逐漸張開
+        const leftInner = 160 - (10 * (1 - ratio));
+        const rightInner = 200 + (10 * (1 - ratio));
+        guardLeft.setAttribute('d', `M ${leftInner} 60 C 120 75 120 165 ${leftInner} 180 C 150 150 150 90 ${leftInner} 60 Z`);
+        guardRight.setAttribute('d', `M ${rightRight} 60 C 240 75 240 165 ${rightRight} 180 C 210 150 210 90 ${rightRight} 60 Z`);
+        vaporText.style.opacity = ratio.toString();
+        badge.className = 'mt-4 px-4 py-1.5 rounded-full text-xs font-black bg-emerald-600 text-white tracking-wide';
+        badge.textContent = '狀態：氣孔張開（保衛細胞吸水膨脹，行蒸散與氣體交換）';
+      }
+    }
+
+    // 4. 迷思題目資料庫（10 題高頻經典會考陷阱題）
+    const quizData = [
+      {
+        question: "1. 關於植物體內「木質部」與「韌皮部」運輸方向的敘述，下列何者完全正確？",
+        options: [
+          "木質部運送水分永遠單向（根➔葉）；韌皮部運送養分可雙向（上➔下或下➔上）",
+          "兩者皆只能由下往上運送物質",
+          "木質部運送無機鹽可雙向流動，韌皮部運送葡萄糖只能向下",
+          "只有在白天是單向，到了晚上兩者皆變成雙向運輸"
+        ],
+        correct: 0,
+        explanation: "🎯 核心考點！木質部靠蒸散拉力，水分『永遠單向由下往上』！韌皮部運送蔗糖等養分，則是依需求『雙向可上可下』（例：春天發芽由根向上送，夏天則由葉向下送）。"
+      },
+      {
+        question: "2. 農夫在果樹主幹基部進行「環狀剝皮」（剝除整圈樹皮）以促進果實肥大，若長時間未復原，樹木會死亡。請問其死亡的直接先後順序為何？",
+        options: [
+          "葉片立刻缺水枯死 ➔ 根部無法行光合作用而死",
+          "韌皮部被破壞 ➔ 根部缺乏有機養分而餓死 ➔ 根部無法吸水 ➔ 整株缺水枯死",
+          "木質部被破壞 ➔ 葉片無法獲得水分枯死 ➔ 根部隨後死亡",
+          "形成層無法分裂 ➔ 樹木無法長粗而傾倒死亡"
+        ],
+        correct: 1,
+        explanation: "🎯 陷阱破除！樹皮包含韌皮部。剝皮破壞了韌皮部，光合作用產生的養分運不到根部，使『根部先餓死』；根部壞死後便無法吸水，整株植物最後才因缺水而枯死！"
+      },
+      {
+        question: "3. 砍伐數十年的神木常發現其『樹幹中心已經腐爛中空』，但該樹木在被砍伐前依然枝葉繁茂、生長良好。這是因為下列何種原因？",
+        options: [
+          "中空的樹幹可以直接吸收空氣中的水分",
+          "負責運輸養分的韌皮部都在樹幹最中央",
+          "樹幹中心是老死不具運輸功能的木質部，具運輸功能的新木質部在靠外側",
+          "植物改由表皮細胞直接進行水分的長距離輸送"
+        ],
+        correct: 2,
+        explanation: "🎯 會考愛考！樹木木材（木質部）中心為較早形成的『老木質部』，多已失去輸水功能；真正負責運送水分的是靠近形成層外圍的『新木質部』，因此即使中心中空，樹木依然能存活！"
+      },
+      {
+        question: "4. 下列有關「保衛細胞」與「一般葉表皮細胞」的比較，何者正確？",
+        options: [
+          "兩者皆含有葉綠體，能自行製造養分",
+          "保衛細胞具有葉綠體，而一般表皮細胞通常無葉綠體",
+          "保衛細胞靠氣孔的一側管壁較薄，背對氣孔的一側較厚",
+          "表皮細胞成對存在，專門負責控制氣孔大小"
+        ],
+        correct: 1,
+        explanation: "🎯 超高頻陷阱！一般葉表皮細胞透明無葉綠體（保護透光）；保衛細胞成對出現、半月形且『含有葉綠體』，能行光合作用促使氣孔開閉！且保衛細胞壁是『內厚外薄』。"
+      },
+      {
+        question: "5. 植物體內水分能克服地心引力，從數十公尺高的樹根向上運送到樹頂葉片，其『最主要』的動力來源是？",
+        options: [
+          "根部細胞的主動推擠力",
+          "莖部木質部細胞的劇烈收縮",
+          "葉片氣孔的蒸散作用所產生的拉力",
+          "土壤中高濃度肥料產生的滲透壓力"
+        ],
+        correct: 2,
+        explanation: "🎯 會考必備常識！蒸散作用是植物體內水分向上運輸的『主要動力』！毛細現象與根壓僅提供輔助輔助。"
+      },
+      {
+        question: "6. 我們觀察木本雙子葉植物樹幹橫切面上的「年輪」，下列敘述何者正確？",
+        options: [
+          "深色環紋是韌皮部，淺色環紋是木質部",
+          "年輪一深一淺包含著『木質部』與『形成層』的交替",
+          "年輪所有的環紋全都是由『木質部』細胞構成的",
+          "熱帶雨林（終年高溫多雨）的樹木年輪最為清晰明顯"
+        ],
+        correct: 2,
+        explanation: "🎯 迷思重災區！年輪『全部都是木質部』！深色環是秋冬生長慢、細胞小壁厚的晚材；淺色環是春夏生長快、細胞大壁薄的早材。熱帶雨林因四季氣候無明顯差異，通常無明顯年輪！"
+      },
+      {
+        question: "7. 將一株芹菜插入紅墨水中置於通風處數小時，取出後將莖橫切，會發現被染成紅色的部位是哪裡？",
+        options: [
+          "最外層的樹皮",
+          "維管束的外側（韌皮部）",
+          "維管束的內側（木質部）",
+          "莖的最中心髓部以及所有表皮"
+        ],
+        correct: 2,
+        explanation: "🎯 經典實驗題！紅墨水是水分溶液，植物吸收水分是由『木質部』輸送，在雙子葉植物莖中，木質部位於維管束的『內側』，因此內側會被染紅。"
+      },
+      {
+        question: "8. 雙子葉木本植物莖內的形成層細胞，進行細胞分裂向外及向內各產生什麼構造？",
+        options: [
+          "向外產生新木質部，向內產生新韌皮部",
+          "向外產生新韌皮部，向內產生新木質部",
+          "向外產生樹皮表皮，向內產生髓部",
+          "向外產生年輪，向內產生氣孔"
+        ],
+        correct: 1,
+        explanation: "🎯 秒殺口訣『內木外韌』！形成層向內分裂產生『木質部』，向外分裂產生『韌皮部』。"
+      },
+      {
+        question: "9. 竹子或水稻等單子葉植物，其莖部無法像神木一樣年年持續加粗的原因是什麼？",
+        options: [
+          "沒有木質部構造",
+          "維管束呈環狀排列缺少空間",
+          "維管束中缺少具分裂能力的「形成層」",
+          "沒有根部吸收足夠的水分"
+        ],
+        correct: 2,
+        explanation: "🎯 核心構造差異！單子葉植物的維管束呈『散生排列』，且維管束內『沒有形成層』，因此無法像雙子葉木本植物一樣年年分裂細胞加粗！"
+      },
+      {
+        question: "10. 在炎熱乾燥的中午，植物葉片的氣孔通常會出現何種生理調節，其生物學意義為何？",
+        options: [
+          "氣孔完全張大，以加速吸收水分",
+          "氣孔關閉，避免體內水分過度蒸散而枯死",
+          "氣孔張開，加速排出氧氣避免中毒",
+          "氣孔轉變為吸水孔，直接吸收空氣中濕氣"
+        ],
+        correct: 1,
+        explanation: "🎯 適應機制！天氣過於乾熱時，植物為了避免蒸散作用流失過多水分導致枯萎，保衛細胞會萎縮使得『氣孔關閉』，以鎖住水分生存。"
+      }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let answered = false;
+
+    function renderQuestion() {
+      answered = false;
+      const q = quizData[currentQ];
+      
+      // 更新標題與進度
+      document.getElementById('question-counter').textContent = `第 ${currentQ + 1} 題 / 共 ${quizData.length} 題`;
+      document.getElementById('current-score-text').textContent = `已累計得分：${score} 分`;
+      document.getElementById('progress-bar').style.width = `${((currentQ + 1) / quizData.length) * 100}%`;
+      document.getElementById('question-text').textContent = q.question;
+
+      // 隱藏解析與下一題按鈕
+      const expBox = document.getElementById('explanation-box');
+      expBox.classList.add('hidden');
+      document.getElementById('btn-next').classList.add('hidden');
+
+      // 渲染選項按鈕
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 font-medium text-slate-800 transition duration-150 flex items-center justify-between text-sm sm:text-base";
+        btn.innerHTML = `<span>${opt}</span><span id="opt-icon-${idx}" class="text-lg font-bold"></span>`;
+        btn.onclick = () => selectOption(idx);
+        container.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedIdx) {
+      if (answered) return;
+      answered = true;
+
+      const q = quizData[currentQ];
+      const buttons = document.getElementById('options-container').querySelectorAll('button');
+      const isCorrect = (selectedIdx === q.correct);
+
+      if (isCorrect) score += 10;
+      document.getElementById('current-score-text').textContent = `已累計得分：${score} 分`;
+
+      // 鎖死所有按鈕並標示樣式
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        const iconSpan = document.getElementById(`opt-icon-${idx}`);
+        
+        if (idx === q.correct) {
+          // 正確選項一律顯示綠色
+          btn.className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold transition flex items-center justify-between text-sm sm:text-base";
+          iconSpan.innerHTML = "✓ 正確";
+          iconSpan.className = "text-emerald-600 text-sm font-black";
+        } else if (idx === selectedIdx && !isCorrect) {
+          // 選錯的顯示紅色
+          btn.className = "w-full text-left p-4 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-900 font-bold transition flex items-center justify-between text-sm sm:text-base";
+          iconSpan.innerHTML = "✗ 陷阱";
+          iconSpan.className = "text-rose-600 text-sm font-black";
+        } else {
+          // 其他未選的淡化透明
+          btn.className = "w-full text-left p-4 rounded-xl border border-slate-100 bg-slate-50 text-slate-300 opacity-40 transition flex items-center justify-between text-sm sm:text-base";
+        }
+      });
+
+      // 展開觀念大白話解析
+      const expBox = document.getElementById('explanation-box');
+      const expTitle = document.getElementById('explanation-title');
+      const expText = document.getElementById('explanation-text');
+      
+      expBox.classList.remove('hidden');
+      if (isCorrect) {
+        expBox.className = "mt-6 p-5 rounded-xl border-2 border-emerald-300 bg-emerald-50/70 text-sm leading-relaxed";
+        expTitle.className = "font-bold text-base flex items-center gap-1.5 mb-1.5 text-emerald-800";
+        expTitle.innerHTML = "🎉 太棒了，觀念完全正確！";
+      } else {
+        expBox.className = "mt-6 p-5 rounded-xl border-2 border-rose-300 bg-rose-50/70 text-sm leading-relaxed";
+        expTitle.className = "font-bold text-base flex items-center gap-1.5 mb-1.5 text-rose-800";
+        expTitle.innerHTML = "⚠️ 哎呀！踩進常見誘答陷阱了：";
+      }
+      expText.textContent = q.explanation;
+
+      // 顯示下一題按鈕
+      const nextBtn = document.getElementById('btn-next');
+      nextBtn.classList.remove('hidden');
+      nextBtn.classList.add('flex');
+      if (currentQ === quizData.length - 1) {
+        nextBtn.innerHTML = "<span>查看診斷報告 🏆</span>";
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQ < quizData.length - 1) {
+        currentQ++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('quiz-header').classList.add('hidden');
+      document.getElementById('quiz-card').classList.add('hidden');
+      const resultCard = document.getElementById('result-card');
+      resultCard.classList.remove('hidden');
+
+      document.getElementById('final-score').innerHTML = `${score} <span class="text-2xl font-sans text-slate-500 font-bold">/ 100</span>`;
+      
+      const feedback = document.getElementById('feedback-text');
+      if (score === 100) {
+        feedback.innerHTML = "太神啦！🎉 你的植物運輸觀念完全無懈可擊，會考如果出這單元你就是標準的『秒殺送分題』！請保持這個敏銳度，繼續征服其他章節！";
+      } else if (score >= 80) {
+        feedback.innerHTML = "非常優秀！🌟 你的基本觀念很扎實，只是一兩題被文字陷阱騙到了（請特別複習：<strong>年輪全部都是木質部</strong>、<strong>韌皮部是雙向</strong>）。把這兩個洞補起來就穩拿 A++！";
+      } else if (score >= 60) {
+        feedback.innerHTML = "表現不錯，但仍有明顯盲點喔！🌿 請切換到<strong>【重點筆記對照表】</strong>頁面，重點複習『環狀剝皮』跟『保衛細胞內厚外薄機制』，把迷思重新校正！";
+      } else {
+        feedback.innerHTML = "別灰心，這正是複習的價值所在！💪 很多九年級同學都卡在『以為年輪有韌皮部』或『以為養分只能向下』。建議先回到<strong>【互動學習實驗室】</strong>拉動滑桿體驗，再重新測驗一次！";
+      }
+    }
+
+    function restartQuiz() {
+      currentQ = 0;
+      score = 0;
+      document.getElementById('result-card').classList.add('hidden');
+      document.getElementById('quiz-header').classList.remove('hidden');
+      document.getElementById('quiz-card').classList.remove('hidden');
+      document.getElementById('btn-next').innerHTML = "<span>下一題 ➔</span>";
+      renderQuestion();
+    }
+
+    // 初始化測驗
+    renderQuestion();
+  </script>
+</body>
+</html>
